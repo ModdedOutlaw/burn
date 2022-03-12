@@ -113,6 +113,6 @@ async function getMiningRate() {
 
     });
 
-    outputMiningRate.innerHTML += '<br><h1>Mining Rate Per Hour = ' + (upliftiumPerHourKeys + upliftiumPerHourMiners) + '</h1>';
+    outputMiningRate.innerHTML += '<br><h1>Mining Rate Per Hour = ' + (upliftiumPerHourKeys + upliftiumPerHourMiners).toFixed(2) + '</h1>';
 
 }
