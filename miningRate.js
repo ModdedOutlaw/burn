@@ -28,6 +28,15 @@ async function fetchYoshiCoinsJSON(walletAddress) {
     return yoshisCoins;
 }
 
+
+
+
+async function fetchAlphaWingsJSON(walletAddress) {
+    const response = await fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?collection_name=upliftworld&schema_name=collectibles&template_id=133746&owner='+walletAddress+'&page=1&limit=200&order=desc&sort=asset_id');
+    const alphaWings = await response.json();
+    return alphaWings;
+}
+
 async function getMiningRate() {
 
     const miners = {
@@ -46,11 +55,13 @@ async function getMiningRate() {
     let minersOwned = [];
     let yoshisOwned = [];
     let yoshiCoinsOwned = [];
+    let alphaWingsOwned = [];
 
     let upliftiumPerHourKeys = 0;
     let upliftiumPerHourMiners = 0;
     let upliftiumPerHourYoshis = 0;
     let upliftiumPerHourYoshiCoins = 0;
+    let upliftiumPerHourAlphaWings = 0;
 
 
     let walletAddress = document.getElementById("wallet").value;
@@ -132,6 +143,14 @@ console.log(minerArray);
         });
     });
 
+    await fetchAlphaWingsJSON(walletAddress).then(alphaWings => {
+        //console.log("YOSHIS....");
+        //console.log(yoshis);
+        alphaWings.data.forEach((element, index) => {
+            alphaWingsOwned[index] = element;
+        });
+    });
+
     keysOwned.forEach(element => {
 
         let key = minerArray.find(o => o.name === element);
@@ -152,8 +171,7 @@ console.log(minerArray);
         upliftiumPerHourYoshis += parseFloat(m.rate);
 
     });
-console.log("YOSHI COINS....");
-console.log(yoshiCoinsOwned);
+
     yoshiCoinsOwned.forEach(element => {
    
         let m = minerArray.find(o => o.id === element.template.template_id);
@@ -161,5 +179,14 @@ console.log(yoshiCoinsOwned);
 
     });
     console.log(upliftiumPerHourYoshiCoins);
-    outputMiningRate.innerHTML += '<br><h1>Mining Rate Per Hour = ' + (upliftiumPerHourYoshiCoins+upliftiumPerHourKeys + upliftiumPerHourMiners + upliftiumPerHourYoshis).toFixed(2) + '</h1>';
+
+    alphaWingsOwned.forEach(element => {
+   
+        let m = minerArray.find(o => o.id === element.template.template_id);
+        upliftiumPerHourAlphaWings += parseFloat(m.rate);
+
+    });
+    console.log(upliftiumPerHourAlphaWings);
+
+    outputMiningRate.innerHTML += '<br><h1>Mining Rate Per Hour = ' + (upliftiumPerHourAlphaWings+ upliftiumPerHourYoshiCoins+upliftiumPerHourKeys + upliftiumPerHourMiners + upliftiumPerHourYoshis).toFixed(2) + '</h1>';
 }
