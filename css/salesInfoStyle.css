@@ -11,4 +11,9 @@ body {
     color: #06ffff;
 	text-align: center;
 }
+span{
+	background-color: #ff41c6;
+	font-size: 10vw;
+	font-weight: 700;
 
+}

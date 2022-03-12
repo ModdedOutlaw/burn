@@ -179,5 +179,5 @@ async function getMiningRate() {
     });
     console.log(upliftiumPerHourAlphaWings);
 
-    outputMiningRate.innerHTML += '<br><h1>Mining Rate Per Hour</h1><br><h2>' + (upliftiumPerHourAlphaWings+ upliftiumPerHourYoshiCoins+upliftiumPerHourKeys + upliftiumPerHourMiners + upliftiumPerHourYoshis).toFixed(2) + '</h2>';
+    outputMiningRate.innerHTML += '<br><h1>Upliftium per Hour</h1><h2><span>' + (upliftiumPerHourAlphaWings+ upliftiumPerHourYoshiCoins+upliftiumPerHourKeys + upliftiumPerHourMiners + upliftiumPerHourYoshis).toFixed(2) + '</span></h2>';
 }
