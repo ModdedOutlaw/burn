@@ -16,6 +16,11 @@ async function fetchMinersJSON(walletAddress) {
     return keys;
 }
 
+async function fetchYoshisJSON(walletAddress) {
+    const response = await fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?collection_name=yoshidrops&schema_name=memberships&owner='+walletAddress+'&page=1&limit=200&order=desc&sort=asset_id');
+    const yoshis = await response.json();
+    return yoshis;
+}
 
 async function getMiningRate() {
 
@@ -33,10 +38,11 @@ async function getMiningRate() {
     let minerArray = [];
     let keysOwned = [];
     let minersOwned = [];
+    let yoshisOwned = [];
 
     let upliftiumPerHourKeys = 0;
     let upliftiumPerHourMiners = 0;
-
+    let upliftiumPerHourYoshis = 0;
     let walletAddress = document.getElementById("wallet").value;
 
     await fetchPoolsJSON().then(pools => {
@@ -70,7 +76,7 @@ async function getMiningRate() {
 
         });
     });
-
+console.log(minerArray);
     await fetchKeysJSON(walletAddress).then(keys => {
         keys.data.forEach((element, i) => {
             if (element.data.name.includes("Upluft") && element.data.name.includes("Land Key")) {
@@ -99,6 +105,15 @@ async function getMiningRate() {
         });
     });
 
+    await fetchYoshisJSON(walletAddress).then(yoshis => {
+        console.log("YOSHIS....");
+        //console.log(yoshis);
+        yoshis.data.forEach((element, index) => {
+            console.log(yoshis);
+            yoshisOwned[index] = element;
+        });
+    });
+
     keysOwned.forEach(element => {
 
         let key = minerArray.find(o => o.name === element);
@@ -112,7 +127,14 @@ async function getMiningRate() {
         upliftiumPerHourMiners += parseFloat(m.rate);
 
     });
+   console.log((upliftiumPerHourKeys + upliftiumPerHourMiners + upliftiumPerHourYoshis).toFixed(2));
+   console.log(yoshisOwned);
+   yoshisOwned.forEach(element => {
+   
+        let m = minerArray.find(o => o.id === element.template.template_id);
+        upliftiumPerHourYoshis += parseFloat(m.rate);
 
-    outputMiningRate.innerHTML += '<br><h1>Mining Rate Per Hour = ' + (upliftiumPerHourKeys + upliftiumPerHourMiners).toFixed(2) + '</h1>';
+    });
 
+    outputMiningRate.innerHTML += '<br><h1>Mining Rate Per Hour = ' + (upliftiumPerHourKeys + upliftiumPerHourMiners + upliftiumPerHourYoshis).toFixed(2) + '</h1>';
 }
