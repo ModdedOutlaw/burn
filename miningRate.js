@@ -61,7 +61,7 @@ async function getMiningRate() {
     let upliftiumPerHourAlphaWings = 0;
 
 
-    let walletAddress = document.getElementById("wallet").value;
+    let walletAddress = document.getElementById("wallet").value; 
 
     await fetchPoolsJSON().then(pools => {
      
@@ -179,5 +179,5 @@ async function getMiningRate() {
     });
     console.log(upliftiumPerHourAlphaWings);
 
-    outputMiningRate.innerHTML += '<br><h1>Mining Rate Per Hour = ' + (upliftiumPerHourAlphaWings+ upliftiumPerHourYoshiCoins+upliftiumPerHourKeys + upliftiumPerHourMiners + upliftiumPerHourYoshis).toFixed(2) + '</h1>';
+    outputMiningRate.innerHTML += '<br><h1>Mining Rate Per Hour</h1><br><h2>' + (upliftiumPerHourAlphaWings+ upliftiumPerHourYoshiCoins+upliftiumPerHourKeys + upliftiumPerHourMiners + upliftiumPerHourYoshis).toFixed(2) + '</h2>';
 }
