@@ -9,31 +9,36 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@200&display=swap" rel="stylesheet">
+
   <title>Upliftium Information</title>
 
 </head>
 
-<body>
+<body >
 
   <header>
     <h1 class="logo">Current Sales</h1>
   </header>
   <!-- Main Container -->
-  <div class="salesInfo">
+  
+  <form action="javascript:getMiningRate()">
+    <label for="wallet">wallet</label><br>
+    <input type="text" id="wallet" name="wallet" value="Doe"><br><br>
+    <input type="submit" value="Submit">
+  </form>
 
+  <div class="miningRate">
+  </div>
 
-
-    <div class="outputInfo">
-
-    
-    </div>
-    <!-- Copyrights Section -->
-    <div class="copyright">&copy;2022- <strong>ModdedOutlaw</strong></div>
+  
+  <!-- Copyrights Section -->
+  <div class="copyright">&copy;2022- <strong>ModdedOutlaw</strong></div>
   </div>
 
   <!-- Main Container Ends -->
-  <script src="salesInfo.js"></script>
-  <script src="data.js"></script>
+
+
 </body>
+<script src="miningRate.js"></script>
 
 </html>
