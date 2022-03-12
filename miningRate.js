@@ -5,13 +5,13 @@ async function fetchPoolsJSON() {
 }
 
 async function fetchKeysJSON(walletAddress) {
-    const response = await fetch('https://wax.api.atomicassets.io/atomicmarket/v1/assets?collection_name=upliftworld&schema_name=keys&owner=' + walletAddress + '&page=1&limit=100&order=desc&sort=asset_id');
+    const response = await fetch('https://wax.api.atomicassets.io/atomicmarket/v1/assets?collection_name=upliftworld&schema_name=keys&owner=' + walletAddress + '&page=1&limit=500&order=desc&sort=asset_id');
     const keys = await response.json();
     return keys;
 }
 
 async function fetchMinersJSON(walletAddress) {
-    const response = await fetch('https://wax.api.atomicassets.io/atomicmarket/v1/assets?collection_name=upliftworld&schema_name=miners&owner=' + walletAddress + '&page=1&limit=100&order=desc&sort=asset_id');
+    const response = await fetch('https://wax.api.atomicassets.io/atomicmarket/v1/assets?collection_name=upliftworld&schema_name=miners&owner=' + walletAddress + '&page=1&limit=1000&order=desc&sort=asset_id');
     const keys = await response.json();
     return keys;
 }
