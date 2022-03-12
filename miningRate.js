@@ -28,9 +28,6 @@ async function fetchYoshiCoinsJSON(walletAddress) {
     return yoshisCoins;
 }
 
-
-
-
 async function fetchAlphaWingsJSON(walletAddress) {
     const response = await fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?collection_name=upliftworld&schema_name=collectibles&template_id=133746&owner='+walletAddress+'&page=1&limit=200&order=desc&sort=asset_id');
     const alphaWings = await response.json();
@@ -97,7 +94,7 @@ async function getMiningRate() {
 
         });
     });
-console.log(minerArray);
+
     await fetchKeysJSON(walletAddress).then(keys => {
         keys.data.forEach((element, i) => {
             if (element.data.name.includes("Upluft") && element.data.name.includes("Land Key")) {
@@ -127,8 +124,6 @@ console.log(minerArray);
     });
 
     await fetchYoshisJSON(walletAddress).then(yoshis => {
-        console.log("YOSHIS....");
-        //console.log(yoshis);
         yoshis.data.forEach((element, index) => {
             console.log(yoshis);
             yoshisOwned[index] = element;
@@ -136,16 +131,12 @@ console.log(minerArray);
     });
 
     await fetchYoshiCoinsJSON(walletAddress).then(yoshiCoins => {
-        //console.log("YOSHIS....");
-        //console.log(yoshis);
         yoshiCoins.data.forEach((element, index) => {
             yoshiCoinsOwned[index] = element;
         });
     });
 
     await fetchAlphaWingsJSON(walletAddress).then(alphaWings => {
-        //console.log("YOSHIS....");
-        //console.log(yoshis);
         alphaWings.data.forEach((element, index) => {
             alphaWingsOwned[index] = element;
         });
