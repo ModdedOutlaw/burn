@@ -22,6 +22,12 @@ async function fetchYoshisJSON(walletAddress) {
     return yoshis;
 }
 
+async function fetchYoshiCoinsJSON(walletAddress) {
+    const response = await fetch('https://wax.api.atomicassets.io/atomicassets/v1/assets?collection_name=yoshidrops&schema_name=yoshicoins&owner='+walletAddress+'&page=1&limit=200&order=desc&sort=asset_id');
+    const yoshisCoins = await response.json();
+    return yoshisCoins;
+}
+
 async function getMiningRate() {
 
     const miners = {
@@ -39,10 +45,14 @@ async function getMiningRate() {
     let keysOwned = [];
     let minersOwned = [];
     let yoshisOwned = [];
+    let yoshiCoinsOwned = [];
 
     let upliftiumPerHourKeys = 0;
     let upliftiumPerHourMiners = 0;
     let upliftiumPerHourYoshis = 0;
+    let upliftiumPerHourYoshiCoins = 0;
+
+
     let walletAddress = document.getElementById("wallet").value;
 
     await fetchPoolsJSON().then(pools => {
@@ -114,6 +124,14 @@ console.log(minerArray);
         });
     });
 
+    await fetchYoshiCoinsJSON(walletAddress).then(yoshiCoins => {
+        //console.log("YOSHIS....");
+        //console.log(yoshis);
+        yoshiCoins.data.forEach((element, index) => {
+            yoshiCoinsOwned[index] = element;
+        });
+    });
+
     keysOwned.forEach(element => {
 
         let key = minerArray.find(o => o.name === element);
@@ -127,14 +145,21 @@ console.log(minerArray);
         upliftiumPerHourMiners += parseFloat(m.rate);
 
     });
-   console.log((upliftiumPerHourKeys + upliftiumPerHourMiners + upliftiumPerHourYoshis).toFixed(2));
-   console.log(yoshisOwned);
+
    yoshisOwned.forEach(element => {
    
         let m = minerArray.find(o => o.id === element.template.template_id);
         upliftiumPerHourYoshis += parseFloat(m.rate);
 
     });
+console.log("YOSHI COINS....");
+console.log(yoshiCoinsOwned);
+    yoshiCoinsOwned.forEach(element => {
+   
+        let m = minerArray.find(o => o.id === element.template.template_id);
+        upliftiumPerHourYoshiCoins += parseFloat(m.rate);
 
-    outputMiningRate.innerHTML += '<br><h1>Mining Rate Per Hour = ' + (upliftiumPerHourKeys + upliftiumPerHourMiners + upliftiumPerHourYoshis).toFixed(2) + '</h1>';
+    });
+    console.log(upliftiumPerHourYoshiCoins);
+    outputMiningRate.innerHTML += '<br><h1>Mining Rate Per Hour = ' + (upliftiumPerHourYoshiCoins+upliftiumPerHourKeys + upliftiumPerHourMiners + upliftiumPerHourYoshis).toFixed(2) + '</h1>';
 }
