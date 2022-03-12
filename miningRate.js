@@ -25,7 +25,8 @@ async function getMiningRate() {
 
     const miners = {
         name: "",
-        rate: 0
+        rate: 0,
+        id:0
     };
 
     const outputMiningRate = document.querySelector('.miningRate');
@@ -46,6 +47,7 @@ async function getMiningRate() {
     console.log(document.getElementById("wallet").value);
 
     await fetchPoolsJSON().then(pools => {
+        console.log(pools);
         pools.data.payload.forEach((element, index) => {
             console.log(element.label);
             const miner = Object.create(miners);
@@ -62,17 +64,23 @@ async function getMiningRate() {
                 miner.name = "Legendary NE5 Miner";
             }else if(element.label == "Mythic Miner - Cauê's Serenity"){
                 miner.name = "Ultimate Gratitude Machine - Mythic - Cauê's Serenity";
-                console.log(miner.name);
+                //console.log(miner.name);
+            }else if(element.label == "Mythic Miner - Nick's Network"){
+                miner.name = "Mythic Miner - Nick's Networks";
+                //console.log(miner.name);
             }
             else{
             miner.name = element.label;
             }
             miner.rate = parseFloat(element.size_per_tick_per_asset);
+            miner.id = element.template_id;
             minerArray[index] = miner;
 
         });
     });
+    console.log("POOL INFO......");
     console.log(minerArray);
+
     await fetchKeysJSON(walletAddress).then(keys => {
         keys.data.forEach((element, i) => {
             if (element.data.name.includes("Upluft") && element.data.name.includes("Land Key")) {
@@ -94,7 +102,7 @@ async function getMiningRate() {
         });
 
     });
-    console.log(keysOwned);
+    //console.log(keysOwned);
 
     await fetchMinersJSON(walletAddress).then(miners => {
         miners.data.forEach((element, index) => {
@@ -113,23 +121,20 @@ async function getMiningRate() {
         upliftiumPerHourKeys += parseFloat(key.rate);
 
     });
+    console.log("UPLIFTIUM PER HOUR FROM KEYS...");
     console.log(upliftiumPerHourKeys);
 
-    //console.log(minersOwned);
-    //console.log(minerArray);
-
     minersOwned.forEach(element => {
-
-        let m = minerArray.find(o => o.name === element.name);
+        console.log(element.template.template_id);
+        let m = minerArray.find(o => o.id === element.template.template_id);
         console.log(m);
-        //console.log(m.rate);
+        console.log(m.rate);
         upliftiumPerHourMiners += parseFloat(m.rate);
 
     });
 
     console.log(upliftiumPerHourMiners);
  
-    //console.log("Total Miner Rate ===> " + (upliftiumPerHourKeys + upliftiumPerHourMiners));
     outputMiningRate.innerHTML += '<br><h1>Mining Rate Per Hour = ' + (upliftiumPerHourKeys + upliftiumPerHourMiners) + '</h1>';
 
 }
