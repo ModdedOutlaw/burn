@@ -95,9 +95,14 @@ async function getMiningRate() {
         });
     });
 
+    console.log(minerArray);
+
     await fetchKeysJSON(walletAddress).then(keys => {
         keys.data.forEach((element, i) => {
-            if (element.data.name.includes("Upluft") && element.data.name.includes("Land Key")) {
+            console.log(element.data.name);
+            console.log(element.template.template_id);
+            keysOwned[i] = element.template.template_id;
+            /*if (element.data.name.includes("Upluft") && element.data.name.includes("Land Key")) {
                 keysOwned[i] = "Land Key - Upluft";
             } else if (element.data.name.includes("Upluft") && element.data.name.includes("Rail Key")) {
                 keysOwned[i] = "Rail Key - Upluft";
@@ -108,10 +113,14 @@ async function getMiningRate() {
             } else if (element.data.name.includes("Land Key")) {
                 keysOwned[i] = "Land Key - Londom/Genesis";
 
-            } else if (element.data.name.includes("Rail Key")) {
+            } else if (element.template.template_id == 97462)) {
                 keysOwned[i] = "Rail Key - Londom/Genesis";
 
-            }
+            }else if (element.template.template_id == 121669){
+                keysOwned[i] = "Uplift World - Land Key - Genesis Edition - Chik'in Ka'ah";
+            }else if (element.template.template_id == 121670){
+                keysOwned[i] = "Uplift World - Land Key - Genesis Edition - Chik'in Ka'ah";
+            }*/
 
         });
 
@@ -144,7 +153,7 @@ async function getMiningRate() {
 
     keysOwned.forEach(element => {
 
-        let key = minerArray.find(o => o.name === element);
+        let key = minerArray.find(o => o.id === element);
         upliftiumPerHourKeys += parseFloat(key.rate);
 
     });
