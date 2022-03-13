@@ -68,26 +68,7 @@ async function getMiningRate() {
         pools.data.payload.forEach((element, index) => {
     
             const miner = Object.create(miners);
-            if (element.label == "Common NES Miner") {
-                //console.log("NE5 --> NES");
-                miner.name = "Common NE5 Miner";
-            } else if (element.label == "Uncommon NES Miner") {
-                miner.name = "Uncommon NE5 Miner";
-            } else if (element.label == "Rare NES Miner") {
-                miner.name = "Rare NE5 Miner";
-            } else if (element.label == "Epic NES Miner") {
-                miner.name = "Epic NE5 Miner";
-            } else if (element.label == "Legendary NES Miner") {
-                miner.name = "Legendary NE5 Miner";
-            } else if (element.label == "Mythic Miner - Cauê's Serenity") {
-                miner.name = "Ultimate Gratitude Machine - Mythic - Cauê's Serenity";
-             
-            } else if (element.label == "Mythic Miner - Nick's Network") {
-                miner.name = "Mythic Miner - Nick's Networks";
-             
-            } else {
-                miner.name = element.label;
-            }
+            miner.name = element.label;
             miner.rate = parseFloat(element.size_per_tick_per_asset);
             miner.id = element.template_id;
             minerArray[index] = miner;
@@ -95,33 +76,9 @@ async function getMiningRate() {
         });
     });
 
-    console.log(minerArray);
-
     await fetchKeysJSON(walletAddress).then(keys => {
         keys.data.forEach((element, i) => {
-            console.log(element.data.name);
-            console.log(element.template.template_id);
             keysOwned[i] = element.template.template_id;
-            /*if (element.data.name.includes("Upluft") && element.data.name.includes("Land Key")) {
-                keysOwned[i] = "Land Key - Upluft";
-            } else if (element.data.name.includes("Upluft") && element.data.name.includes("Rail Key")) {
-                keysOwned[i] = "Rail Key - Upluft";
-
-            } else if (element.data.name.includes("Gratitude") && element.data.name.includes("Land Key")) {
-                keysOwned[i] = "Land Key - Gratitude";
-
-            } else if (element.data.name.includes("Land Key")) {
-                keysOwned[i] = "Land Key - Londom/Genesis";
-
-            } else if (element.template.template_id == 97462)) {
-                keysOwned[i] = "Rail Key - Londom/Genesis";
-
-            }else if (element.template.template_id == 121669){
-                keysOwned[i] = "Uplift World - Land Key - Genesis Edition - Chik'in Ka'ah";
-            }else if (element.template.template_id == 121670){
-                keysOwned[i] = "Uplift World - Land Key - Genesis Edition - Chik'in Ka'ah";
-            }*/
-
         });
 
     });
@@ -134,7 +91,6 @@ async function getMiningRate() {
 
     await fetchYoshisJSON(walletAddress).then(yoshis => {
         yoshis.data.forEach((element, index) => {
-            console.log(yoshis);
             yoshisOwned[index] = element;
         });
     });
@@ -178,7 +134,6 @@ async function getMiningRate() {
         upliftiumPerHourYoshiCoins += parseFloat(m.rate);
 
     });
-    console.log(upliftiumPerHourYoshiCoins);
 
     alphaWingsOwned.forEach(element => {
    
@@ -186,7 +141,6 @@ async function getMiningRate() {
         upliftiumPerHourAlphaWings += parseFloat(m.rate);
 
     });
-    console.log(upliftiumPerHourAlphaWings);
 
     outputMiningRate.innerHTML += '<br><h1>Upliftium per Hour</h1><h2><span>' + (upliftiumPerHourAlphaWings+ upliftiumPerHourYoshiCoins+upliftiumPerHourKeys + upliftiumPerHourMiners + upliftiumPerHourYoshis).toFixed(2) + '</span></h2>';
 }
